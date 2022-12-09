@@ -3,6 +3,7 @@
  */
 
 const { TestScheduler } = require("jest");
+const { listenerCount } = require("process");
 const { game, newGame, showScore, addTurn, lightsOn, showTurns } = require("../scripts/game");
 
 beforeAll(() => {
@@ -29,6 +30,9 @@ describe("game object contains correct keys", () => {
     test("choices contains correct ids", () => {
         expect(game.choices).toEqual(["button1", "button2", "button3", "button4"]);
     });
+    test("turn number key exists", () => {
+        expect("turnNumber" in game).toBe(true);
+    });
 });
 
 describe("new game works correctly", () => {
@@ -50,6 +54,12 @@ describe("new game works correctly", () => {
     });
     test("should display zero for element with id of score", () => {
         expect(document.getElementById("score").innerText).toEqual(0);
+    });
+    test("expect data-listener to be true", () => {
+        const elements = document.getElementsByClassName("circle");
+        for (let element of elements) {
+            expect(element.getAttribute("data-listener")).toEqual("true");
+        } 
     });
 });
 
